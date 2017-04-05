@@ -3,7 +3,7 @@ const assert = require('assert');
 const {copy, isSame} = require('..');
 
 describe('iCopier', () => {
-    it('example (this object is flat)', () => {
+    it('copy / example (this object is flat)', () => {
         let user = {
             name: 'slava'
         };
@@ -37,7 +37,7 @@ describe('iCopier', () => {
         });
     });
 
-    it('deep example (infinity depth)', () => {
+    it('copy / deep example (infinity depth)', () => {
         let user = {
             name: 'slava',
             settings: {
@@ -79,7 +79,7 @@ describe('iCopier', () => {
         });
     });
 
-    it('deep example (depth=0)', () => {
+    it('copy / deep example (depth=0)', () => {
         let user = {
             name: 'slava',
             settings: {
@@ -138,7 +138,7 @@ describe('iCopier', () => {
 
     })
 
-    it('deep example (depth=1)', () => {
+    it('copy / deep example (depth=1)', () => {
         let user = {
             name: 'slava',
             settings: {
@@ -170,7 +170,7 @@ describe('iCopier', () => {
         });
     })
 
-    it('isSame example', () => {
+    it('isSame / example', () => {
 
         assert(isSame('some string', 'some string'));
 
@@ -185,7 +185,7 @@ describe('iCopier', () => {
         assert(!isSame(user, clone));
     });
 
-    it('isSame example (infinity depth)', () => {
+    it('isSame / example (infinity depth)', () => {
         let user = {
             name: 'slava',
             settings: {
@@ -204,7 +204,7 @@ describe('iCopier', () => {
         assert(isSame(user, clone));
     })
 
-    it('isSame example (infinity depth strict)', () => {
+    it('isSame / example (infinity depth strict)', () => {
         let user = {
             name: 'slava',
             settings: {
