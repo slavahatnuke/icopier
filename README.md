@@ -1,4 +1,8 @@
 # icopier
+It gives ability to copy objects and detect if something was changed.
+It include 2 functions 
+ - `copy(object, depth = null, options = {})`
+ - `isSame(object1, object2, depth = null, options = {})`
 
 
 ### Spec / copy
