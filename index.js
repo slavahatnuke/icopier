@@ -59,7 +59,7 @@ const _copy = (object, depth, options = {}, level = 0) => {
         const Clone = function () {
         };
 
-        Clone.prototype = Object.getPrototypeOf ? Object.getPrototypeOf(object) : object;
+        Clone.prototype = isFunction(Object.getPrototypeOf) ? Object.getPrototypeOf(object) : object;
         result = new Clone();
     }
 
