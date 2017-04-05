@@ -91,7 +91,11 @@ const _isSame = (object1, object2, depth = null, options = {}, level = 0) => {
 
     let names = [];
 
-    if (isArray(object1) && isArray(object2) && object1.length === object2.length) {
+    if (isArray(object1) && isArray(object2)) {
+        if(object1.length !== object2.length) {
+            return false;
+        }
+
         names = range(object1.length);
     } else if (isObject(object1) && isObject(object2)) {
         names = [...Object.getOwnPropertyNames(object1), ...Object.getOwnPropertyNames(object2)]
