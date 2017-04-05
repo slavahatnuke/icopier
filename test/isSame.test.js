@@ -110,9 +110,31 @@ describe('iCopier / isSame', () => {
 
         user.settings.allow_notification = false;
         assert(isSame(user, clone, 0));
-
         assert(!isSame(user, clone, 1));
         assert(!isSame(user, clone, 20));
+        assert(!isSame(user, clone, null));
+    })
+
+
+
+    it('isSame / example (depth=1-2) array', () => {
+        let user = {
+            name: 'slava',
+            settings: {
+                allow_notification: true,
+            },
+            picked: [{id: 1}, {id: 2}]
+        };
+
+        let clone = copy(user, 2);
+        assert(isSame(user, clone, 2));
+
+        user.picked[0].id = 100;
+        assert(isSame(user, clone, 0));
+        assert(isSame(user, clone, 1));
+
+        assert(!isSame(user, clone, 2));
+        assert(!isSame(user, clone, 10));
         assert(!isSame(user, clone, null));
     })
 });
