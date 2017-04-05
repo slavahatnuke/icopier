@@ -169,6 +169,66 @@ describe('iCopier', () => {
             picked: [1, 2, 5, 8]
         });
     })
+
+    it('isSame example', () => {
+
+        // assert(isSame('some string', 'some string'));
+
+        let user = {
+            name: 'slava'
+        };
+
+        let clone = copy(user);
+        assert(isSame(user, clone));
+
+        user.name = 'updated';
+        assert(!isSame(user, clone));
+    });
+
+    it('isSame example (infinity depth)', () => {
+        let user = {
+            name: 'slava',
+            settings: {
+                allow_notification: true,
+            },
+            picked: [{id: 1}, {id: 2}]
+        };
+
+        let clone = copy(user);
+        show(clone);
+
+        assert(isSame(user, clone));
+
+        user.settings.allow_notification = false;
+        show(clone);
+        assert(!isSame(user, clone));
+
+        user.settings.allow_notification = true;
+        assert(isSame(user, clone));
+    })
+
+    it('isSame example (infinity depth strict)', () => {
+        let user = {
+            name: 'slava',
+            settings: {
+                allow_notification: true,
+            },
+            picked: [{id: 1}, {id: 2}]
+        };
+
+        let clone = copy(user);
+        show(clone);
+
+        assert(isSame(user, clone));
+
+        user.settings = {
+            allow_notification: true,
+        };
+
+        show(clone);
+        // assert(!isSame(user, clone));
+        // assert(isSame(user, clone), null, {strictOrigin: false});
+    })
 });
 
-const show = (clone) => Object.getOwnPropertyNames(clone).map((name) => console.log(name, clone[name]));
+const show = (clone) => Object.getOwnPropertyNames(clone).map((name) => console.log('>', name, ':', clone[name]));
