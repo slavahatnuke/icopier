@@ -1,7 +1,7 @@
 {
   "name": "icopier",
-  "version": "0.0.3",
-  "description": "icopier",
+  "version": "0.0.4",
+  "description": "icopier - Copy objects and detect changes",
   "main": "index.js",
   "directories": {
     "test": "test"
