@@ -78,52 +78,50 @@ describe('iCopier / isSame', () => {
 
         user.settings.allow_notification = false;
         assert(isSame(user, clone, 0));
-    })
+    });
 
-
-    it('isSame / example (depth=1)', () => {
+    it('isSame / custom fields', () => {
         let user = {
-            name: 'slava',
-            settings: {
-                allow_notification: true,
-            },
-            picked: [{id: 1}, {id: 2}]
+            name: 'slava'
         };
 
-        let clone = copy(user, 1);
-        // assert(isSame(user, clone, 1));
+        let clone = copy(user);
+        assert(isSame(user, clone));
 
-        user.allow_notification = true;
-        assert(isSame(user, clone, 1));
+        user.customField = 'foo';
+        assert(!isSame(user, clone));
 
-        //
-        // user.name = 'updated';
-        //
-        // assert(!isSame(user, clone, 0));
-        // user.name = 'slava';
-        //
-        // assert(isSame(user, clone, 0));
-        //
-        // user.settings.allow_notification = false;
-        // assert(isSame(user, clone, 0));
-    })
+        delete user.customField;
+        assert(isSame(user, clone));
+    });
 
-
-    // it('isSame / custom fields', () => {
+    //
+    // it('isSame / example (depth=1)', () => {
     //     let user = {
-    //         name: 'slava'
+    //         name: 'slava',
+    //         settings: {
+    //             allow_notification: true,
+    //         },
+    //         picked: [{id: 1}, {id: 2}]
     //     };
     //
-    //     let clone = copy(user);
-    //     // assert(isSame(user, clone));
+    //     let clone = copy(user, 1);
+    //     // assert(isSame(user, clone, 1));
     //
-    //     user.customField = 'foo';
+    //     user.settings.allow_notification = true;
+    //     assert(!isSame(user, clone, 1));
     //
-    //     show(clone);
-    //     console.log('>>clone', clone);
-    //
-    //     assert(!isSame(user, clone));
-    // });
+    //     //
+    //     // user.name = 'updated';
+    //     //
+    //     // assert(!isSame(user, clone, 0));
+    //     // user.name = 'slava';
+    //     //
+    //     // assert(isSame(user, clone, 0));
+    //     //
+    //     // user.settings.allow_notification = false;
+    //     // assert(isSame(user, clone, 0));
+    // })
 });
 
 const show = (clone) => Object.getOwnPropertyNames(clone).map((name) => console.log('>', name, ':', clone[name]));

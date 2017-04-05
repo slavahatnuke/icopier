@@ -53,7 +53,7 @@ const _copy = (object, depth, options = {}, level = 0) => {
         const Clone = function () {
         };
 
-        Clone.prototype = object;
+        Clone.prototype = Object.getPrototypeOf(object);
         result = new Clone();
     }
 
@@ -79,8 +79,6 @@ const copy = (object, depth = null, options = {}) => {
 };
 
 const _isSame = (object1, object2, depth = null, options = {}, level = 0) => {
-    console.log({level, object1, object2});
-
     if (depth !== null && level > depth) {
         return true;
     }
@@ -104,17 +102,8 @@ const _isSame = (object1, object2, depth = null, options = {}, level = 0) => {
         return object1 === object2;
     }
 
-    console.log('>>names', names);
-    console.log('>>object1', object1);
-    console.log('>>object2', object2);
-
     for (let idx = 0; idx < names.length; idx++) {
         let name = names[idx];
-
-        console.log('>>name', name);
-        console.log('>>object1[name]', object1[name]);
-        console.log('>>object2[name]', object2[name]);
-
 
         if (object1[name] !== object2[name]) {
             if (isObject(object1[name]) && isObject(object2[name])) {
