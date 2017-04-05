@@ -1,6 +1,12 @@
 const isObject = (object) => object instanceof Object;
 const isFunction = (object) => object instanceof Function;
 const isArray = (object) => Array.isArray(object);
+const range = (length) => {
+    const result = [];
+    for (let i = 0; i < length; i++)
+        result.push(i);
+    return result;
+};
 
 const originSymbol = '__symbol_icopier_origin';
 const setOrigin = (object, name, value) => {
@@ -46,7 +52,7 @@ const _copy = (object, depth, options = {}, level = 0) => {
     let result = null;
 
     if (isArray(object)) {
-        names = [...Array(object.length).keys()];
+        names = range(object.length);
         result = [];
     } else {
         names = Object.getOwnPropertyNames(object).filter((name) => name !== originSymbol);
@@ -86,7 +92,7 @@ const _isSame = (object1, object2, depth = null, options = {}, level = 0) => {
     let names = [];
 
     if (isArray(object1) && isArray(object2) && object1.length === object2.length) {
-        names = [...Array(object1.length).keys()];
+        names = range(object1.length);
     } else if (isObject(object1) && isObject(object2)) {
         names = [...Object.getOwnPropertyNames(object1), ...Object.getOwnPropertyNames(object2)]
             .filter((name) => name !== originSymbol);
