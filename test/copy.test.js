@@ -1,8 +1,8 @@
 const assert = require('assert');
 
-const {copy, isSame} = require('..');
+const {copy} = require('..');
 
-describe('iCopier', () => {
+describe('iCopier / copy', () => {
     it('copy / example (this object is flat)', () => {
         let user = {
             name: 'slava'
@@ -168,60 +168,6 @@ describe('iCopier', () => {
             },
             picked: [1, 2, 5, 8]
         });
-    })
-
-    it('isSame / example', () => {
-
-        assert(isSame('some string', 'some string'));
-
-        let user = {
-            name: 'slava'
-        };
-
-        let clone = copy(user);
-        assert(isSame(user, clone));
-
-        user.name = 'updated';
-        assert(!isSame(user, clone));
-    });
-
-    it('isSame / example (infinity depth)', () => {
-        let user = {
-            name: 'slava',
-            settings: {
-                allow_notification: true,
-            },
-            picked: [{id: 1}, {id: 2}]
-        };
-
-        let clone = copy(user);
-        assert(isSame(user, clone));
-
-        user.settings.allow_notification = false;
-        assert(!isSame(user, clone));
-
-        user.settings.allow_notification = true;
-        assert(isSame(user, clone));
-    })
-
-    it('isSame / example (infinity depth strict)', () => {
-        let user = {
-            name: 'slava',
-            settings: {
-                allow_notification: true,
-            },
-            picked: [{id: 1}, {id: 2}]
-        };
-
-        let clone = copy(user);
-        assert(isSame(user, clone));
-
-        user.settings = {
-            allow_notification: true,
-        };
-
-        assert(!isSame(user, clone));
-        assert(isSame(user, clone, null, {strictOrigin: false}));
     })
 });
 
