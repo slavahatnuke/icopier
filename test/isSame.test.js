@@ -95,33 +95,26 @@ describe('iCopier / isSame', () => {
         assert(isSame(user, clone));
     });
 
-    //
-    // it('isSame / example (depth=1)', () => {
-    //     let user = {
-    //         name: 'slava',
-    //         settings: {
-    //             allow_notification: true,
-    //         },
-    //         picked: [{id: 1}, {id: 2}]
-    //     };
-    //
-    //     let clone = copy(user, 1);
-    //     // assert(isSame(user, clone, 1));
-    //
-    //     user.settings.allow_notification = true;
-    //     assert(!isSame(user, clone, 1));
-    //
-    //     //
-    //     // user.name = 'updated';
-    //     //
-    //     // assert(!isSame(user, clone, 0));
-    //     // user.name = 'slava';
-    //     //
-    //     // assert(isSame(user, clone, 0));
-    //     //
-    //     // user.settings.allow_notification = false;
-    //     // assert(isSame(user, clone, 0));
-    // })
+
+    it('isSame / example (depth=1)', () => {
+        let user = {
+            name: 'slava',
+            settings: {
+                allow_notification: true,
+            },
+            picked: [{id: 1}, {id: 2}]
+        };
+
+        let clone = copy(user, 1);
+        assert(isSame(user, clone, 1));
+
+        user.settings.allow_notification = false;
+        assert(isSame(user, clone, 0));
+
+        assert(!isSame(user, clone, 1));
+        assert(!isSame(user, clone, 20));
+        assert(!isSame(user, clone, null));
+    })
 });
 
 const show = (clone) => Object.getOwnPropertyNames(clone).map((name) => console.log('>', name, ':', clone[name]));
