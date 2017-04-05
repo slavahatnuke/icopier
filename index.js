@@ -1,8 +1,6 @@
 const isObject = (object) => object instanceof Object;
 const isFunction = (object) => object instanceof Function;
 const isArray = (object) => Array.isArray(object);
-//TODO @@@slava do I need?
-// const isPureObject = (object) => isObject(object) && !isFunction(object) && !isArray(object);
 
 const originSymbol = '__symbol_icopier_origin';
 const setOrigin = (object, name, value) => {
@@ -51,7 +49,7 @@ const _copy = (object, depth, options = {}, level = 0) => {
         names = [...Array(object.length).keys()];
         result = [];
     } else {
-        names = Object.getOwnPropertyNames(object);
+        names = Object.getOwnPropertyNames(object).filter((name) => name !== originSymbol);
         const Clone = function () {
         };
 
@@ -81,8 +79,6 @@ const copy = (object, depth = null, options = {}) => {
 };
 
 const _isSame = (object1, object2, depth = null, options = {}, level = 0) => {
-    // console.log({level});
-
     if (depth !== null && level > depth) {
         return true;
     }
@@ -106,19 +102,15 @@ const _isSame = (object1, object2, depth = null, options = {}, level = 0) => {
         return object1 === object2;
     }
 
-    console.log('>names', names);
-
     for (let idx = 0; idx < names.length; idx++) {
         let name = names[idx];
 
-        // console.log('>object1[name]', object1[name]);
-        // console.log('>object2[name]', object2[name]);
-
-        // console.log('>>> here', object1[name] == object2[name]);
-
         if (object1[name] !== object2[name]) {
             if (isObject(object1[name]) && isObject(object2[name])) {
-                console.log('>>> object check', name);
+                if (options.strictOrigin && getOrigin(object1, name) !== getOrigin(object2, name)) {
+                    return false;
+                }
+
                 if (!_isSame(object1[name], object2[name], depth, options, level + 1)) {
                     return false;
                 }

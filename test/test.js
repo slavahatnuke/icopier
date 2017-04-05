@@ -172,7 +172,7 @@ describe('iCopier', () => {
 
     it('isSame example', () => {
 
-        // assert(isSame('some string', 'some string'));
+        assert(isSame('some string', 'some string'));
 
         let user = {
             name: 'slava'
@@ -195,12 +195,9 @@ describe('iCopier', () => {
         };
 
         let clone = copy(user);
-        show(clone);
-
         assert(isSame(user, clone));
 
         user.settings.allow_notification = false;
-        show(clone);
         assert(!isSame(user, clone));
 
         user.settings.allow_notification = true;
@@ -217,17 +214,14 @@ describe('iCopier', () => {
         };
 
         let clone = copy(user);
-        show(clone);
-
         assert(isSame(user, clone));
 
         user.settings = {
             allow_notification: true,
         };
 
-        show(clone);
-        // assert(!isSame(user, clone));
-        // assert(isSame(user, clone), null, {strictOrigin: false});
+        assert(!isSame(user, clone));
+        assert(isSame(user, clone, null, {strictOrigin: false}));
     })
 });
 
