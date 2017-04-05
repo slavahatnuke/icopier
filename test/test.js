@@ -166,8 +166,9 @@ describe('iCopier', () => {
             settings: {
                 allow_notification: true,
             },
-            picked: [1,2,5,8]
+            picked: [1, 2, 5, 8]
         });
-
     })
 });
+
+const show = (clone) => Object.getOwnPropertyNames(clone).map((name) => console.log(name, clone[name]));

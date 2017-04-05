@@ -1,72 +1,31 @@
-class Value {
-    constructor(value = undefined) {
-        this.value = value;
-    }
-
-    get() {
-        return this.value;
-    }
-
-    set(value) {
-        this.value = value;
-    }
-}
-
-class Copier {
-    constructor(depth = null, options = {}) {
-        this.options = Object.assign({strict: true}, options);
-        this.depth = depth;
-    }
-
-    copy(object) {
-        return copy(object, this.depth, this.options);
-    }
-
-    isSame(object1, object2) {
-        return isSame(object1, object2, this.depth, this.options);
-    }
-}
-
-const copier = (depth = null, options = {}) => new Copier(depth, options);
-
 const isObject = (object) => object instanceof Object;
 const isFunction = (object) => object instanceof Function;
 const isArray = (object) => Array.isArray(object);
 //TODO @@@slava do I need?
-const isPureObject = (object) => isObject(object) && !isFunction(object) && !isArray(object);
-
-
-const field = (object, name, getter = () => undefined) => {
-    if (isObject(object) && !object[name]) {
-        Object.defineProperty(object, name, {
-            get: getter,
-            enumerable: false,
-            configurable: false
-        });
-    }
-
-    return object;
-};
+// const isPureObject = (object) => isObject(object) && !isFunction(object) && !isArray(object);
 
 const originSymbol = '__symbol_icopier_origin';
-const getOriginName = (name) => `${originSymbol}:${name}`;
-
 const setOrigin = (object, name, value) => {
-    if (isObject(object) && !object[getOriginName(name)]) {
-        const _value = new Value(value);
-        field(object, getOriginName(name), () => _value)
+    if (isObject(object)) {
+        if (!object[originSymbol]) {
+            Object.defineProperty(object, originSymbol, {
+                value: {},
+                configurable: false,
+                enumerable: false
+            });
+        }
+
+        object[originSymbol][name] = value;
     }
 };
 
 const getOrigin = (object, name) => {
     if (isObject(object)) {
-        if (object[getOriginName(name)]) {
-            return object[getOriginName(name)].get();
+        if (object[originSymbol]) {
+            return object[originSymbol][name];
         } else {
             return object[name];
         }
-    } else {
-        return undefined;
     }
 };
 
@@ -124,6 +83,5 @@ const isSame = (object1, object2, depth = null, options = {}) => {
 
 module.exports = {
     copy,
-    isSame,
-    copier
+    isSame
 };
